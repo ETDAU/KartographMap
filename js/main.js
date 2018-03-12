@@ -1,5 +1,7 @@
 
+var map = kartograph.map('#canadamap', 600, 600);
 
-var map = kartograph.map('#canadamap', 600, 500)
-
-console.log(map)
+map.loadMap('censussubdivision.svg', () => {
+  map.addLayer('censussubdivision');
+  console.log('done loading');
+});
