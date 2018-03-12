@@ -1,8 +1,7 @@
-var ontsvg = 'CensusSubDiv.svg',
-    opts = { padding: 30 };
+var ontsvg = 'CensusSubDiv.svg';
 
-kartograph.map('#map')
-          .loadMap(ontsvg, mapLoaded, opts);
+kartograph.map('#map', 900, 900)
+          .loadMap(ontsvg, mapLoaded);
 
 function mapLoaded(map) {
     map.addLayer('layer0', {
@@ -11,7 +10,7 @@ function mapLoaded(map) {
             fill: '#f6f4f2'
         },
         mouseenter: function(d, path) {
-            path.attr('fill', Math.random() < 0.5 ? '#c04' : '#04c');
+            path.attr('fill', '#c04');
         },
         mouseleave: function(d, path) {
             path.animate({ fill: '#f6f4f2' }, 500);
