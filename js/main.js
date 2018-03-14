@@ -29,7 +29,11 @@ var svg = d3.select('#map').append('svg')
 d3.json('CensusSubDiv.json', function(error, CensusSubDiv) {
   if (error) return console.error(error);
 
+
+
   svg.append('path')
   .datum(topojson.feature(CensusSubDiv, CensusSubDiv.objects.CensusSubDivision))
-  .attr('d', d3.geo.path().projection(d3.geo.mercator()));
+  .attr('d', d3.geo.path().projection(d3.geo.mercator()))
+  .attr('id', 'ont')
+;
 });
