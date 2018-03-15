@@ -33,7 +33,7 @@ console.log(colors(44.6));
   svg.append('path')
     .datum(featureCollection)
     .attr('d', d3.geoPath().projection(projection))
-    .attr('fill', colors(employment[d.unemployment]));
+    .attr('fill', colors(function(d) {return d.unemployment}));
     //.attr('id', 'ont');
   };
 
