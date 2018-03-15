@@ -12,31 +12,44 @@ var employment = d3.map();
 // so color(44.6) should return #52e4c2
 
 var colors = d3.scaleThreshold()
-  .domain([0,45])
-  .range(["#3F445A","#435970","#446E86","#418599","#3C9DA9","#3AB4B5","#40CDBD","#52E4C2"]);
+  .domain([6,40])
+  .range(d3.schemeBlues[5]);
 
 d3.queue()
   .defer(d3.json, 'ont.json')
-  .defer(d3.csv, 'employment.csv', function(d) {employment.set(d.Geography, +d.unemployment); })
+  .defer(d3.csv, 'employment.csv', function(d) {
+		if(+d.unemployment > -1){
+			employment.set(d.Geography, +d.unemployment);
+		}
+	})
   .await(ready);
-function ready(error, CensusSubDiv) { if (error)
+
+function ready(error, CensusSubDiv, empl) { if (error)
   throw error;
 
-var featureCollection = topojson.feature(CensusSubDiv, CensusSubDiv.objects.CensusSubDivision)
+	//console.log(employment)
 
-var projection = d3.geoIdentity()
-  .reflectY(true)
-  .fitSize([width, height], featureCollection)
+	var featureCollection = topojson.feature(CensusSubDiv, CensusSubDiv.objects.CensusSubDivision)
+	//console.log(featureCollection)
 
-console.log(colors(44.6));
+	var projection = d3.geoIdentity()
+	  .reflectY(true)
+	  .fitSize([width, height], featureCollection)
 
-  svg.append('path')
-    .datum(featureCollection)
+	//console.log(colors(44.6));
+
+  svg.append('g')
+    .attr('id', 'ont')
+		.selectAll('path')
+    .data(featureCollection.features)
+		.enter()
+		.append('path')
     .attr('d', d3.geoPath().projection(projection))
-    .attr('fill', colors(function(d) {return d.unemployment}));
-    //.attr('id', 'ont');
-  };
+    .attr('fill', (d)=>{
+			return colors(employment.get(+d.properties.CSDUID))
+		});
 
+};
 
 
 

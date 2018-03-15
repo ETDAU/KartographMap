@@ -1,6 +1,7 @@
 #ont {
-    fill: lightGrey;
-    stroke: grey;
+    fill: grey;
+    stroke: white;
+    stroke-width: 0.25;
   }
 
   h1 {
