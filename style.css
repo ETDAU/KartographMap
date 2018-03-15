@@ -1,5 +1,8 @@
-
 #ont {
-  stroke: black;
-  fill: green;
+    fill: lightGrey;
+    stroke: grey;
+  }
+
+  h1 {
+    font-family: monospace;
 }
