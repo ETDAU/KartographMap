@@ -16,14 +16,14 @@ var employment = d3.map();
 
 // given a value in the input domain, returns the corresponding value in the output range/
 
-var colors = d3.scaleThreshold()
-  .domain([10,13,16,19,22,25,28,31,34,37])
-  .range(["#39A48B","#45AF8A","#55BA89","#66C486","#79CF83","#8ED87F","#A3E27A","#BBEA76","#D3F273","#EDFA71"]);
+var colors = d3.scaleSequential()
+  .domain([2,25])
+  .interpolator(d3.interpolateGnBu);
 
 d3.queue()
   .defer(d3.json, 'ont.json')
   .defer(d3.csv, 'employment.csv', function(d) {
-		if(+d.unemployment > -1){
+		if(+d.unemployment > 10){
 			employment.set(d.Geography, +d.unemployment);
 		}
 	})

@@ -1,7 +1,7 @@
 #ont {
-    fill: grey;
-    stroke: white;
-    stroke-width: 0.25;
+    fill: white;
+    stroke: grey;
+    stroke-width: 0.2;
   }
 
   h1 {
@@ -17,5 +17,5 @@
 }
 
 .feature.active {
-  fill: orange;
+  fill: #9370DB;
 }
