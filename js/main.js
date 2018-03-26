@@ -12,29 +12,29 @@ svg.append('rect')
   .attr('height', height)
 
 // d3.map
-var employment = d3.map();
+var cddata = d3.map();
 
 // given a value in the input domain, returns the corresponding value in the output range/
 
-var colors = d3.scaleSequential()
-  .domain([2,25])
-  .interpolator(d3.interpolateGnBu);
+var colors = d3.scaleOrdinal()
+  .domain([0,5])
+  .range(['#195C55','#1F6B5E','#287965','#32876C','#3E9672','#4CA577','#5CB47B','#6DC27E','#80D180','#94E082','#AAEE83','#C2FC84']);
 
 d3.queue()
-  .defer(d3.json, 'ont.json')
-  .defer(d3.csv, 'employment.csv', function(d) {
-		if(+d.unemployment > 10){
-			employment.set(d.Geography, +d.unemployment);
+  .defer(d3.json, 'topojson/ontcd.json')
+  .defer(d3.csv, 'data/cddata.csv', function(d) {
+		if(+d.percent > 0){
+			cddata.set(d.geography, +d.percent);
 		}
 	})
   .await(ready);
 
-function ready(error, censusSubDiv, empl) { if (error)
+function ready(error, censusDivision, perc) { if (error)
   throw error;
 
 	//console.log(employment)
 
-	var featureCollection = topojson.feature(censusSubDiv, censusSubDiv.objects.CensusSubDivision);
+	var featureCollection = topojson.feature(censusDivision, censusDivision.objects.censusdiv);
 	//console.log(featureCollection)
 
 	var projection = d3.geoIdentity()
@@ -51,7 +51,7 @@ function ready(error, censusSubDiv, empl) { if (error)
 		.append('path')
     .attr('d', thePath)
     .attr('fill', (d)=>{
-			return colors(employment.get(+d.properties.CSDUID))
+			return colors(cddata.get(d.properties.CDNAME))
 		})
     .attr('class', 'feature')
     .on('click', clicked);
@@ -82,5 +82,5 @@ function ready(error, censusSubDiv, empl) { if (error)
       g.transition()
         .duration(750)
         .attr('transform', '');
-  }
+  };
 }
